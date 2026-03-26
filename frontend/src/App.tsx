@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
+import { supabase } from './utils/supabase'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Todo {
+  id: number
+  name: string
 }
 
-export default App;
+export default function App() {
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  useEffect(() => {
+    async function getTodos() {
+      const { data: todos } = await supabase.from('todos').select()
+      if (todos) {
+        setTodos(todos)
+      }
+    }
+    getTodos()
+  }, [])
+
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.name}</li>
+      ))}
+    </ul>
+  )
+}
