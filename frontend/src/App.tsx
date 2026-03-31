@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TodosPage from "./pages/TodosPage";
-import "./app.css";
+import "./App.css";
 
 export default function App() {
   return (

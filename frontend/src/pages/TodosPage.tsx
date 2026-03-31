@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabase'
+
+// removed supabase import 
+// import { supabase } from '../utils/supabase' 
 
 interface Todo {
   id: number
   name: string
 }
 
-export default function App() {
-  const [todos, setTodos] = useState<Todo[]>([])
 
-  useEffect(() => {
-    async function getTodos() {
-      const { data: todos } = await supabase.from('todos').select()
-      if (todos) {
-        setTodos(todos)
-      }
-    }
-    getTodos()
-  }, [])
+// fake data just for screen 
+const MOCK_TODOS: Todo[] = [
+  { id: 1, name: 'Report 1' },
+  { id: 2, name: 'Report 2' },
+  { id: 3, name: 'Report 3 ' },
+]
+
+export default function App() {
+  const [todos] = useState<Todo[]>(MOCK_TODOS)
 
   return (
     <ul>
