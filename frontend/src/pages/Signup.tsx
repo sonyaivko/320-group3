@@ -28,6 +28,14 @@ const Signup: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input
+          type="password"
+          placeholder="Confirm password"
+          value={password}
+          // make this mandatory 
+          // need to check if it is the same, then validate and set 
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Signup</button>
       </form>
     </div>

@@ -4,7 +4,7 @@ body {
   background-color: #f9f9f9; /* light background so text is visible */
 }
 
-.home, .login-page, .signup-page, .todos-page {
+.home, .login-page, .signup-page, .viewreports {
   display: flex;
   flex-direction: column;
   align-items: center;
