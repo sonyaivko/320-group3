@@ -2,12 +2,16 @@ import "reflect-metadata";
 import express from "express";
 import { uFoundDataSource } from "./ormconfig";
 import * as dotenv from "dotenv";
-import { createReport } from "./services/reportService"; // make sure path is correct
+import reportRoutes from "./routes/reportRoutes";
+import filterRoutes from "./routes/filterRoutes";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+app.use("/reports", reportRoutes);
+app.use("/reports", filterRoutes);
 
 uFoundDataSource.initialize().then(() => {
   console.log("uFound DB connected!");
@@ -16,15 +20,4 @@ uFoundDataSource.initialize().then(() => {
   });
 }).catch((err: Error) => {
   console.error("DB connection failed:", err);
-});
-
-// POST /reports
-app.post("/reports", async (req, res) => {
-  try {
-    const report = await createReport(req.body);
-    res.status(201).json(report);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create report" });
-  }
 });
