@@ -3,19 +3,30 @@ import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   return (
-    <div className="home">
-      <h1 style={{ color: "black" }}>Welcome to Lost and UFound</h1>
+    <div className="home-page">
+      <header className="home-header">
+      <h1>UFound: UMass Lost & Found App</h1>
+      <p>Report or find lost items quickly and easily.</p>
+      </header>
+
+      <div className="home-buttons">
       <Link to="/login">
         <button className="btn">Login</button>
       </Link>
       <Link to="/signup">
-        <button className="btn">Signup</button>
+        <button className="btn-accent">Signup</button>
+      </Link>
+      </div>
+
+      <h2>View Reports</h2>
+      <Link to="/viewreports">
+        <button className="btn-accent">Reports</button>
       </Link>
 
-      <h2 style={{color: "black"}}>View Reports</h2>
-      <Link to="/viewreports">
-        <button className="btn">Reports</button>
-      </Link>
+      <footer className="home-footer">
+        <p>© 2026 Lost & Found App</p>
+      </footer>
+      
     </div>
   );
 };
