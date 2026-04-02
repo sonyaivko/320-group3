@@ -1,5 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from '../logo.png';
+import stu from '../stu.webp';
+
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -31,13 +34,22 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="home-page">
+    <div className="home-page"
+      style={{
+        backgroundImage: `url(${stu})`,
+      }}>
       <header className="home-header">
-        <h1>UFound: UMass Lost & Found App</h1>
-        <p>Report or find lost items quickly and easily.</p>
+        <div className="header-content">
+          <img src={logo} alt="Logo" className="logo" />
+        <div className="header-text">
+          <h1>UFound: UMass Lost & Found App</h1>
+          <p>Report or find lost items quickly and easily.</p>
+        </div>
+        </div>
       </header>
 
       <div className="home-buttons">
+
         <button className="btn" onClick={handleLogin}>
           Login
         </button>
