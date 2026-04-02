@@ -1,82 +1,38 @@
-:root {
-  --primary: #7A1E1E;       /* Maroon - main buttons & headers */
-  --background: #FFFFFF;    /* White - page background */
-  --text: #111111;          /* Black - main text */
-  --accent: #D4A017;        /* Gold - highlights / secondary buttons */
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--background);
-  color: var(--text);
-}
-
-.home-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(to bottom, #FFFFFF, #f9f9f9);
-  padding: 40px 20px;
+.App {
   text-align: center;
 }
 
-.home-header h1 {
-  font-size: 3rem;
-  color: var(--primary);
-  margin-bottom: 10px;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.home-header p {
-  font-size: 1.2rem;
-  color: var(--text);
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
-.login-page, .signup-page, .viewreports {
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* center vertically */
-  min-height: 100vh;      /* take full screen height */
-  gap: 15px;
-  text-align: center; 
-}
-
-button.btn {
-  padding: 12px 28px;
-  background-color: var(--primary);
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem; 
-  transition: 0.2s; 
 }
 
-button.btn:hover {
-  background-color: #5c1414; /* darker on hover*/ 
+.App-link {
+  color: #61dafb;
 }
 
-button.btn-accent { /* secondary button */ 
-  background-color: var(--accent);
-  color: var(--text);
-  border-radius: 8px;
-  font-size: 1.1rem;
-  padding: 12px 28px;
- 
-}
-
-button.btn-accent:hover {
-  background-color: #b38c0d; /* darker gold on hover */
-}
-
-.home-footer {
-  margin-top: 60px;
-  font-size: 0.9rem;
-  color: #555;
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
