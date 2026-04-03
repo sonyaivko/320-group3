@@ -110,6 +110,12 @@ button.btn-accent { /* secondary button */
   padding: 12px 28px;
  
 }
+/* smaller version of main button for forms */
+button.btn-small {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
 
 button.btn-accent:hover {
   background-color: #b38c0d; /* darker gold on hover */

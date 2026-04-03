@@ -6,12 +6,22 @@ import stu from '../stu.webp';
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
+  // check if user is logged in
+  const isLoggedIn = !!localStorage.getItem("userToken"); // replace with your auth logic
+
+  const handleProtectedNavigation = (path: string) => {
+    if (!isLoggedIn) {
+      alert("You must be logged in to access this page.");
+      navigate("/login");
+      return;
+    }
+    navigate(path);
+  };
+
   return (
     <div
       className="home-page"
-      style={{
-        backgroundImage: `url(${stu})`,
-      }}
+      style={{ backgroundImage: `url(${stu})` }}
     >
       <header className="home-header">
         <div className="header-content">
@@ -32,10 +42,16 @@ const Home: React.FC = () => {
       </header>
 
       <div className="glass-box">
-        <button className="btn-accent" onClick={() => navigate("/createreport")}>
+        <button
+          className="btn-accent"
+          onClick={() => handleProtectedNavigation("/createreport")}
+        >
           Create Report
         </button>
-        <button className="btn-accent" onClick={() => navigate("/viewreports")}>
+        <button
+          className="btn-accent"
+          onClick={() => handleProtectedNavigation("/viewreports")}
+        >
           View Reports
         </button>
       </div>

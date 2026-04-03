@@ -1,8 +1,10 @@
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -28,8 +30,21 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-small">
+          Login
+        </button>
       </form>
+
+      <div style={{ marginTop: "15px", fontSize: "0.95rem" }}>
+        <span>Don't have an account? </span>
+        <button
+          className="btn-accent"
+          style={{ padding: "6px 12px", fontSize: "0.9rem" }}
+          onClick={() => navigate("/signup")}
+        >
+          Sign Up
+        </button>
+      </div>
     </div>
   );
 };
