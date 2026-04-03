@@ -120,7 +120,33 @@ button.btn-accent:hover {
   font-size: 0.9rem;
   color: #555;
 }
+/* new styles for home buttons layout */
+.top-right-buttons {
+  margin-left: auto; /* push to right */
+  display: flex;
+  gap: 10px;
+}
 
+.glass-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  
+  /* center on page */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  padding: 25px 35px;
+  
+  background-color: rgba(255, 255, 255, 0.5); /* more transparent */
+  backdrop-filter: blur(12px); /* slightly stronger blur for effect */
+  
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
 /* pictures */
 
 
