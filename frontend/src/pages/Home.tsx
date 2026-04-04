@@ -7,7 +7,8 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   // check if user is logged in
-  const isLoggedIn = !!localStorage.getItem("userToken"); // replace with your auth logic
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token; // replace with your auth logic
 
   const handleProtectedNavigation = (path: string) => {
     if (!isLoggedIn) {
