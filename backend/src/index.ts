@@ -5,7 +5,7 @@ import { uFoundDataSource } from "./ormconfig";
 import * as dotenv from "dotenv";
 import reportRoutes from "./routes/reportRoutes";
 import filterRoutes from "./routes/filterRoutes";
-import authRoutes from "./routes/authRoutes";
+//import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
-app.use("/auth", authRoutes);
+//app.use("/auth", authRoutes);
 app.use("/reports", reportRoutes);
 app.use("/reports", filterRoutes);
 
