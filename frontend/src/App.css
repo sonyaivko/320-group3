@@ -20,22 +20,53 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to bottom, #FFFFFF, #f9f9f9);
-  padding: 40px 20px;
-  text-align: center;
+  justify-content: flex-start;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  padding: 0;
 }
 
-.home-header h1 {
-  font-size: 3rem;
+.home-header {
+  width: 100%;
+  background: white;
+  padding:12px 15px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-sizing: border-box; 
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap; 
+}
+
+.logo {
+  width: 100px;
+  flex-shrink: 0; 
+  padding-left: 20px;
+}
+
+.header-text {
+  display: flex; 
+  flex-direction: column; 
+  text-align: left;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 1.8rem;
   color: var(--primary);
-  margin-bottom: 10px;
 }
 
-.home-header p {
-  font-size: 1.2rem;
-  color: var(--text);
+.header-text p {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 .login-page, .signup-page, .viewreports {
@@ -48,14 +79,23 @@ body {
   text-align: center; 
 }
 
+/* buttons */ 
+
 button.btn {
-  padding: 12px 28px;
+  padding: 16px 36px;
   background-color: var(--primary);
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem; 
+  border-radius: 10px;
+  font-size: 1.3rem; 
   transition: 0.2s; 
+}
+
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* more space between buttons */
+  margin-top: 30px;
 }
 
 button.btn:hover {
@@ -70,6 +110,12 @@ button.btn-accent { /* secondary button */
   padding: 12px 28px;
  
 }
+/* smaller version of main button for forms */
+button.btn-small {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
 
 button.btn-accent:hover {
   background-color: #b38c0d; /* darker gold on hover */
@@ -80,3 +126,34 @@ button.btn-accent:hover {
   font-size: 0.9rem;
   color: #555;
 }
+/* new styles for home buttons layout */
+.top-right-buttons {
+  margin-left: auto; /* push to right */
+  display: flex;
+  gap: 10px;
+}
+
+.glass-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  
+  /* center on page */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  padding: 25px 35px;
+  
+  background-color: rgba(255, 255, 255, 0.5); /* more transparent */
+  backdrop-filter: blur(12px); /* slightly stronger blur for effect */
+  
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+/* pictures */
+
+
+
