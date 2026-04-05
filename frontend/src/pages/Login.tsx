@@ -2,16 +2,29 @@ import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../logo.png';
 import stu from '../signin.webp';
+import { signIn } from "../api/auth";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Login submitted:", { email, password });
-    // TODO: connect to backend / Supabase auth
+  
+    try {
+      const data = await signIn(email, password);
+      console.log("Login success:", data);
+  
+      if (data.session?.access_token) {
+        localStorage.setItem("token", data.session.access_token);
+      }
+  
+      alert("Login successful!");
+      navigate("/");
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (

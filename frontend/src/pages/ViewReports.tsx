@@ -1,28 +1,44 @@
-import { useState, useEffect } from 'react';
-// removed supabase import 
-// import { supabase } from '../utils/supabase' 
-
-interface Report {
-  id: number
-  name: string
-}
-
-
-// fake data just for screen 
-const MOCK_REPORTS: Report[] = [
-  { id: 1, name: 'Report 1' },
-  { id: 2, name: 'Report 2' },
-  { id: 3, name: 'Report 3 ' },
-]
+import { useEffect, useState } from "react";
+import { getReports, BackendReport } from "../api/reports";
 
 export default function App() {
-  const [todos] = useState<Report[]>(MOCK_REPORTS)
+  const [reports, setReports] = useState<BackendReport[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadReports() {
+      try {
+        const data = await getReports();
+        setReports(data);
+      } catch (err) {
+        setError("Failed to load reports");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadReports();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <ul>
-      {todos.map((todo) => (
-        <li key={todo.id}>{todo.name}</li>
-      ))}
-    </ul>
-  )
+    <div>
+      <h1>View Reports</h1>
+      {reports.length === 0 ? (
+        <p>No reports found.</p>
+      ) : (
+        <ul>
+          {reports.map((report) => (
+            <li key={report.report_id}>
+              {report.lost_or_found} - {report.description || "No description"}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
