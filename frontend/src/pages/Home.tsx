@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../logo.png';
 import stu from '../stu.webp';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // check if user is logged in
-  const isLoggedIn = !!localStorage.getItem("userToken"); // replace with your auth logic
+  // Check login status (example using localStorage)
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+  }, []);
 
-  const handleProtectedNavigation = (path: string) => {
-    if (!isLoggedIn) {
-      alert("You must be logged in to access this page.");
-      navigate("/login");
-      return;
-    }
-    navigate(path);
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
   return (
@@ -26,32 +27,39 @@ const Home: React.FC = () => {
       <header className="home-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
+
           <div className="header-text">
             <h1>UFound: UMass Lost & Found App</h1>
             <p>Report or find lost items quickly and easily.</p>
           </div>
+
           <div className="top-right-buttons">
-            <button className="btn" onClick={() => navigate("/login")}>
-              Login
-            </button>
-            <button className="btn-accent" onClick={() => navigate("/signup")}>
-              Signup
-            </button>
+            {!isLoggedIn ? (
+              <>
+                <button className="btn" onClick={() => navigate("/login")}>
+                  Login
+                </button>
+                <button className="btn-accent" onClick={() => navigate("/signup")}>
+                  Signup
+                </button>
+              </>
+            ) : (
+              <button className="btn" onClick={handleLogout}>
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </header>
 
       <div className="glass-box">
-        <button
-          className="btn-accent"
-          onClick={() => handleProtectedNavigation("/createreport")}
-        >
+        <button className="btn-accent" onClick={() => navigate("/createreport")}>
           Create Report
         </button>
-        <button
-          className="btn-accent"
-          onClick={() => handleProtectedNavigation("/viewreports")}
-        >
+        <button className="btn-accent" onClick={() => navigate("/search")}>
+          Search
+        </button>
+        <button className="btn-accent" onClick={() => navigate("/viewreports")}>
           View Reports
         </button>
       </div>

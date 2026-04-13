@@ -8,11 +8,15 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Login submitted:", { email, password });
-    // TODO: connect to backend / Supabase auth
-  };
+const handleSubmit = (e: FormEvent) => {
+  e.preventDefault();
+
+  console.log("Login submitted:", { email, password });
+  // TEMP: simulate successful login
+  localStorage.setItem("user", "loggedIn");
+  // redirect back to home page
+  navigate("/");
+};
 
   return (
     <div

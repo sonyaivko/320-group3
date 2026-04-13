@@ -17,6 +17,8 @@ const Signup: React.FC = () => {
     }
     console.log("Signup submitted:", { email, password });
     // TODO: connect to backend / Supabase signup
+    localStorage.setItem("user", "loggedIn");
+    navigate("/");
   };
 
   return (
