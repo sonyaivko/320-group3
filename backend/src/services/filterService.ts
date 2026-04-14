@@ -29,7 +29,10 @@ export async function getReports(filters: {
     query.andWhere("report.created_at <= :created_before", { created_before: new Date(filters.created_before) });
   }
 
-  if (filters.latitude && filters.longitude && filters.radius_km) {
+  if (
+  filters.latitude !== undefined &&
+  filters.longitude !== undefined &&
+  filters.radius_km !== undefined) {
     query.andWhere(
       `earth_distance(ll_to_earth(report.latitude, report.longitude), ll_to_earth(:lat, :lng)) <= :radius_m`,
       { lat: filters.latitude, lng: filters.longitude, radius_m: filters.radius_km * 1000 }

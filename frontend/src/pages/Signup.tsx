@@ -1,7 +1,9 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../logo.png';
-import stu from '../signup.webp';
+import logo from '../imgs/logo.png';
+import signin from '../imgs/signin.webp';
+import signup from '../imgs/signup.webp';
+import stu from '../imgs/stu.webp';
 import { signUp } from "../api/auth";
 
 const Signup: React.FC = () => {

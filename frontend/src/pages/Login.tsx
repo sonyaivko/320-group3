@@ -1,8 +1,10 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../logo.png';
-import stu from '../signin.webp';
+import logo from '../imgs/logo.png';
+import signin from '../imgs/signin.webp';
+import signup from '../imgs/signup.webp';
 import { signIn } from "../api/auth";
+import stu from '../imgs/stu.webp';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
