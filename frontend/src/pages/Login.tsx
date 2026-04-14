@@ -1,22 +1,36 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import logo from '../imgs/logo.png';
 import stu from '../imgs/signin.webp';
+=======
+import logo from '../logo.png';
+import stu from '../signin.webp';
+import { signIn } from "../api/auth";
+>>>>>>> 0e1d1ebc196056b8b2066fd51a8dcc5a146272b0
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-const handleSubmit = (e: FormEvent) => {
-  e.preventDefault();
-
-  console.log("Login submitted:", { email, password });
-  // TEMP: simulate successful login
-  localStorage.setItem("user", "loggedIn");
-  // redirect back to home page
-  navigate("/");
-};
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+  
+    try {
+      const data = await signIn(email, password);
+      console.log("Login success:", data);
+  
+      if (data.session?.access_token) {
+        localStorage.setItem("token", data.session.access_token);
+      }
+  
+      alert("Login successful!");
+      navigate("/");
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div
