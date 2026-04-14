@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createReport } from "../api/createReport";
+
 
 const CreateReport: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,15 +12,37 @@ const CreateReport: React.FC = () => {
     location: ""
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Report submitted:", formData);
-    alert("Your report has been submitted!");
-    // TODO: connect to backend API to save report
+  
+    try {
+      const payload = {
+        lost_or_found: formData.type,
+        latitude: 0,
+        longitude: 0,
+        resolved: false,
+        description: formData.description,
+        categories: {
+          category: formData.category,
+          location: formData.location,
+          date: formData.date,
+        },
+      };
+  
+      const data = await createReport(payload);
+      console.log("Report submitted:", data);
+      alert("Your report has been submitted!");
+      navigate("/viewreports");
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "Failed to submit report");
+    }
   };
 
   return (

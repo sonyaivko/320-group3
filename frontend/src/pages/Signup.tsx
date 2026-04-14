@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../logo.png';
 import stu from '../signup.webp';
+import { signUp } from "../api/auth";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -9,16 +10,22 @@ const Signup: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+  
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    console.log("Signup submitted:", { email, password });
-    // TODO: connect to backend / Supabase signup
-    localStorage.setItem("user", "loggedIn");
-    navigate("/");
+  
+    try {
+      const data = await signUp(email, password);
+      console.log("Signup success:", data);
+      alert("Signup successful! Please log in.");
+      navigate("/login");
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
