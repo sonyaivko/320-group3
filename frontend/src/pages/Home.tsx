@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../logo.png';
-import stu from '../stu.webp';
+import logo from '../imgs/logo.png';
+import stu from '../imgs/stu.webp';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -56,14 +56,10 @@ const Home: React.FC = () => {
         <button className="btn-accent" onClick={() => navigate("/createreport")}>
           Create Report
         </button>
-        <button className="btn-accent" onClick={() => navigate("/search")}>
-          Search
-        </button>
         <button className="btn-accent" onClick={() => navigate("/viewreports")}>
           View Reports
         </button>
       </div>
-
       <footer className="home-footer">
         <p>© 2026 Lost & Found App</p>
       </footer>

@@ -32,6 +32,10 @@ body {
 
 .home-header {
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0; 
+  z-index:1000; 
   background: white;
   padding:12px 15px;
   backdrop-filter: blur(12px);
@@ -153,7 +157,40 @@ button.btn-accent:hover {
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
-/* pictures */
+/* viewreports */
+
+.reports-page {
+  padding-top: 80px; 
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 2rem;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: white;
+}
+
+.glass-select {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
 
 
 
