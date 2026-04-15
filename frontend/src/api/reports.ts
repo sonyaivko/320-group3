@@ -13,7 +13,11 @@ export interface CreateReportPayload {
   longitude: number;
   resolved: boolean;
   description: string;
-  categories: Record<string, string>;
+  categories: {
+    itemType: string[];
+    color: string[];
+    material: string[];
+  };
 }
 
 export async function getReports(): Promise<BackendReport[]> {

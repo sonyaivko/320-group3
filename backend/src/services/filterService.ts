@@ -3,7 +3,11 @@ import { Report } from "../entities/Report";
 
 export async function getReports(filters: {
   lost_or_found?: string;
-  categories?: string;
+  categories?: {
+    itemType: string[];
+    color: string[];
+    material: string[];
+  } | null;
   created_after?: string;
   created_before?: string;
   latitude?: number;
@@ -18,7 +22,22 @@ export async function getReports(filters: {
   }
 
   if (filters.categories) {
-    query.andWhere("report.categories::text ILIKE :categories", { categories: `%${filters.categories}%` });
+  const items = [
+    ...(filters.categories.itemType || []),
+    ...(filters.categories.color || []),
+    ...(filters.categories.material || []),
+  ];
+
+    if (items.length > 0) {
+      query.andWhere(
+        `
+        report.categories->'itemType' ?| array[:...items]
+        OR report.categories->'color' ?| array[:...items]
+        OR report.categories->'material' ?| array[:...items]
+        `,
+        { items }
+      );
+    }
   }
 
   if (filters.created_after) {

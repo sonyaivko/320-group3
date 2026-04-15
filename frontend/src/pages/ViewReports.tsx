@@ -36,8 +36,6 @@ export default function ViewReports() {
   });
 
   // keep a ref so fetchReports always reads current filters
-  const filtersRef = useRef(filters);
-  useEffect(() => { filtersRef.current = filters; }, [filters]);
 
   function toggle(key: "itemType" | "color" | "material", value: string) {
     setFilters((prev) => {
@@ -54,13 +52,19 @@ export default function ViewReports() {
   async function fetchReports() {
     setLoading(true);
     try {
-      const f = filtersRef.current;
+      const f = filters;
       const params = new URLSearchParams();
 
       if (f.lost_or_found) params.append("lost_or_found", f.lost_or_found);
 
-      const categories = [...f.itemType, ...f.color, ...f.material].join(" ");
-      if (categories) params.append("categories", categories);
+      const categories = {
+      itemType: f.itemType,
+      color: f.color,
+      material:
+      f.material,
+      };
+
+      params.append("categories", JSON.stringify(categories));
 
       const token = localStorage.getItem("token");
 

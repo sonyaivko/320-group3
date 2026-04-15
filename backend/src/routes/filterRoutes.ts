@@ -9,7 +9,9 @@ router.get("/", authMiddleware, async (req, res) => {
   try {
     const reports = await getReports({
       lost_or_found: req.query.lost_or_found as string,
-      categories: req.query.categories as string,
+      categories: req.query.categories
+        ? JSON.parse(req.query.categories as string)
+        : null,
       created_after: req.query.created_after as string,
       created_before: req.query.created_before as string,
       latitude: req.query.latitude ? Number(req.query.latitude) : undefined,
