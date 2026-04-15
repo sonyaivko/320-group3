@@ -12,21 +12,29 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-  
-    try {
-      const data = await signIn(email, password);
-      console.log("Login success:", data);
-  
-      if (data.session?.access_token) {
-        localStorage.setItem("token", data.session.access_token);
-      }
-  
-      alert("Login successful!");
-      navigate("/");
-    } catch (err: any) {
-      alert(err.message);
+  e.preventDefault();
+
+  try {
+    const data = await signIn(email, password);
+
+    // ✅ HARD VALIDATION (important)
+    if (!data.session?.access_token) {
+      throw new Error("Login failed: no session token returned");
     }
+
+    // ✅ STORE TOKEN
+    localStorage.setItem("token", data.session.access_token);
+
+    // (optional but recommended)
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    console.log("Login success:", data);
+
+    alert("Login successful!");
+    navigate("/");
+  } catch (err: any) {
+    alert(err.message);
+  }
   };
 
   return (
