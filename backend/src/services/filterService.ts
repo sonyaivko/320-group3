@@ -18,24 +18,32 @@ export async function getReports(filters: {
   const query = repo.createQueryBuilder("report");
 
   if (filters.lost_or_found) {
-    query.andWhere("report.lost_or_found = :lost_or_found", { lost_or_found: filters.lost_or_found });
+    query.andWhere("LOWER(report.lost_or_found) = LOWER(:lost_or_found)", {
+      lost_or_found: filters.lost_or_found,
+    });
   }
 
   if (filters.categories) {
-  const items = [
-    ...(filters.categories.itemType || []),
-    ...(filters.categories.color || []),
-    ...(filters.categories.material || []),
-  ];
+    const { itemType = [], color = [], material = [] } = filters.categories;
 
-    if (items.length > 0) {
+    if (itemType.length > 0) {
       query.andWhere(
-        `
-        report.categories->'itemType' ?| array[:...items]
-        OR report.categories->'color' ?| array[:...items]
-        OR report.categories->'material' ?| array[:...items]
-        `,
-        { items }
+        `report.categories->'itemType' ?| array[:...itemType]`,
+        { itemType }
+      );
+    }
+
+    if (color.length > 0) {
+      query.andWhere(
+        `report.categories->'color' ?| array[:...color]`,
+        { color }
+      );
+    }
+
+    if (material.length > 0) {
+      query.andWhere(
+        `report.categories->'material' ?| array[:...material]`,
+        { material }
       );
     }
   }
