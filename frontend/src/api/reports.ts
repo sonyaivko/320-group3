@@ -53,3 +53,24 @@ export async function createReport(payload: CreateReportPayload) {
 
   return data;
 }
+
+export async function resolveReport(report_id: number) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `http://localhost:4000/reports/${report_id}/resolve`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.error || "Failed to resolve report");
+  }
+
+  return res.json();
+}

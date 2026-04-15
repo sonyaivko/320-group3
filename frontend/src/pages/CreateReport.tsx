@@ -32,15 +32,8 @@ function LocationPicker({
 /* ---------------- OPTIONS ---------------- */
 
 const ITEM_TYPES = ["Backpack", "Purse", "Wallet", "Phone", "Keys", "Laptop", "Card", "Other"];
-
-const COLORS = [
-  "Red","Orange","Yellow","Green","Blue","Indigo","Violet",
-  "Black","Gray","White","Other",
-];
-
-const MATERIALS = [
-  "Leather","Plastic","Metal","Stainless Steel","Fabric","Rubber","Other",
-];
+const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "Black", "White", "Other"];
+const MATERIALS = ["Leather", "Plastic", "Metal", "Fabric", "Rubber", "Glass", "Other"];
 
 /* ---------------- TYPES ---------------- */
 

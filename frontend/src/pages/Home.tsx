@@ -58,9 +58,6 @@ const Home: React.FC = () => {
         <button className="btn-accent" onClick={() => navigate("/createreport")}>
           Create Report
         </button>
-        <button className="btn-accent" onClick={() => navigate("/search")}>
-          Search
-        </button>
         <button className="btn-accent" onClick={() => navigate("/viewreports")}>
           View Reports
         </button>
