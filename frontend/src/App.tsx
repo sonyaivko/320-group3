@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ViewReports from "./pages/ViewReports";
 import CreateReport from "./pages/CreateReport";
-import Search from "./pages/Search";
 import ProtectedRoute from "./ProtectedRoute";
 import "./App.css";
 
@@ -32,15 +31,6 @@ export default function App() {
           element={
             <ProtectedRoute>
               <CreateReport />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/search"
-          element={
-            <ProtectedRoute>
-              <Search />
             </ProtectedRoute>
           }
         />
