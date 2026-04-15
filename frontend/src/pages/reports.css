@@ -527,3 +527,14 @@ html, body, #root {
     transform: translateX(-50%) translateY(0);
   }
 }
+
+.top-right-nav {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000; 
+}
+
+.top-right-nav .btn-accent {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}

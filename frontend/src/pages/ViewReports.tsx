@@ -129,8 +129,9 @@ export default function ViewReports() {
       };
     });
   }
-
+  const navigate = useNavigate();
   return (
+    
     <div className="view-layout">
 
       {/* FILTER PANEL (UNCHANGED) */}
@@ -192,6 +193,12 @@ export default function ViewReports() {
 
       {/* MAP */}
       <div className="map-area">
+        <div className="top-right-nav">
+          <button className="btn-accent" onClick={() => navigate("/")}>
+            Home
+          </button>
+        </div>
+
         {loading ? (
           <div className="loading">
             <div className="spinner" />
