@@ -150,7 +150,7 @@ export default function ViewReports() {
         <div className="filter-section">
           <p className="section-label">Report type</p>
           <div className="type-tabs">
-            {["", "lost", "found"].map((v) => (
+            {["", "Lost", "Found"].map((v) => (
               <button
                 key={v || "all"}
                 className={`type-tab${filters.lost_or_found === v ? " active" : ""}`}
