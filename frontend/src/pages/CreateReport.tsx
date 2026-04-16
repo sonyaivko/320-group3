@@ -52,6 +52,9 @@ export default function CreateReport() {
   const [animateOut, setAnimateOut] = useState(false);
   const [coords, setCoords] = useState<LatLng | null>(null);
 
+  const [showToast, setShowToast] = useState(false);
+
+
   const [formData, setFormData] = useState<FormState>({
     type: null,
     description: "",
@@ -111,8 +114,11 @@ export default function CreateReport() {
         },
       });
 
-      alert("Report submitted!");
-      navigate("/viewreports");
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/viewreports");
+      }, 2000);
     } catch (err: any) {
       alert(err.message);
     }
@@ -244,6 +250,12 @@ export default function CreateReport() {
 
         </form>
       </div>
+      
+    {showToast && (
+      <div className="success-toast">
+        Report submitted!
+      </div>
+    )}
     </div>
   );
 }

@@ -67,7 +67,12 @@ export default function ViewReports() {
         material: filters.material,
       };
 
-      params.append("categories", JSON.stringify(categories));
+      if ( filters.itemType.length ||
+        filters.color.length ||
+        filters.material.length
+      ) {
+        params.append("categories", JSON.stringify(categories));
+      }
 
       const token = localStorage.getItem("token");
 
