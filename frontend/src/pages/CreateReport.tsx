@@ -7,6 +7,7 @@ import {
 } from "react-leaflet";
 import { LatLng, LeafletMouseEvent } from "leaflet";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/toastcontext";
 
 import { createReport } from "../api/createReport";
 import { UMassBounds } from "../utils/mapBounds";
@@ -52,7 +53,6 @@ export default function CreateReport() {
   const [animateOut, setAnimateOut] = useState(false);
   const [coords, setCoords] = useState<LatLng | null>(null);
 
-  const [showToast, setShowToast] = useState(false);
 
 
   const [formData, setFormData] = useState<FormState>({
@@ -64,6 +64,7 @@ export default function CreateReport() {
   });
 
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   /* ---------------- MULTI SELECT ---------------- */
 
@@ -114,13 +115,11 @@ export default function CreateReport() {
         },
       });
 
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        navigate("/viewreports");
-      }, 2000);
+      showToast("Report submitted!", "success");
+      navigate("/viewreports");
+
     } catch (err: any) {
-      alert(err.message);
+      showToast(err.message, "error");
     }
   };
 
@@ -251,11 +250,6 @@ export default function CreateReport() {
         </form>
       </div>
       
-    {showToast && (
-      <div className="success-toast">
-        Report submitted!
-      </div>
-    )}
     </div>
   );
 }

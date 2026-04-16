@@ -2,9 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/toastcontext";
 import logo from '../imgs/logo.png';
-import signin from '../imgs/signin.webp';
 import signup from '../imgs/signup.webp';
-import stu from '../imgs/stu.webp';
 import { signUp } from "../api/auth";
 
 const Signup: React.FC = () => {
@@ -42,7 +40,7 @@ const Signup: React.FC = () => {
     <div
       className="signup-page"
       style={{
-        backgroundImage: `url(${stu})`,
+        backgroundImage: `url(${signup})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',

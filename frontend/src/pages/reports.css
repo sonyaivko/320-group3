@@ -83,9 +83,9 @@ html, body, #root {
 }
 .type-tab:hover { background: #f0f4fa; }
 .type-tab.active {
-  background: #2d6cdf;
-  border-color: #2d6cdf;
-  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
 }
 
 /* chips */
@@ -107,9 +107,9 @@ html, body, #root {
 }
 .chip:hover { background: #f0f4fa; }
 .chip.active {
-  background: #e8f0fd;
-  border-color: #2d6cdf;
-  color: #2d6cdf;
+  background: rgba(122, 30, 30, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
   font-weight: 500;
 }
 
@@ -117,7 +117,7 @@ html, body, #root {
 .apply-btn {
   margin: 14px 16px 16px;
   padding: 10px;
-  background: #2d6cdf;
+  background: var(--primary);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -126,8 +126,8 @@ html, body, #root {
   cursor: pointer;
   transition: background 0.15s;
 }
-.apply-btn:hover { background: #245bb8; }
-.apply-btn:active { background: #1d4f9f; }
+.apply-btn:hover { background: #831c17; }
+.apply-btn:active { background: #9f2a1d; }
 
 /* map area */
 .map-area {
@@ -349,7 +349,7 @@ html, body, #root {
 
 /* modern button */
 .resolve-btn {
-  background: linear-gradient(135deg, #2d6cdf, #4a8dff);
+  background: linear-gradient(135deg, var(--primary), #5c1414);
   color: white;
   border: none;
   padding: 8px 14px;

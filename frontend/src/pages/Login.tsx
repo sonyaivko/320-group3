@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/toastcontext";
 import logo from '../imgs/logo.png';
 import { signIn } from "../api/auth";
-import stu from '../imgs/stu.webp';
+import signin from '../imgs/signin.webp';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     <div
       className="login-page"
       style={{
-        backgroundImage: `url(${stu})`,
+        backgroundImage: `url(${signin})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',
