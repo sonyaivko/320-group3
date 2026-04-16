@@ -97,7 +97,7 @@ export default function CreateReport() {
     e.preventDefault();
 
     if (!coords || !formData.type) {
-      alert("Please complete all required fields");
+      showToast("Please fill out all fields.", "info");
       return;
     }
 
