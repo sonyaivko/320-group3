@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useToast } from "../context/toastcontext";
 import L from "leaflet";
 import { UMassBounds } from "../utils/mapBounds";
 import "./reports.css";
@@ -37,6 +38,7 @@ const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "
 const MATERIALS = ["Leather", "Plastic", "Metal", "Fabric", "Rubber", "Glass", "Other"];
 
 export default function ViewReports() {
+  const { showToast } = useToast();
 
   /* ✅ FIX 1: state must be inside component */
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
@@ -115,7 +117,8 @@ export default function ViewReports() {
     }, 3000);
 
   } catch (err: any) {
-    alert(err.message);
+    showToast(err.message, "error");
+
   }
 };
 

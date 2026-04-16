@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/toastcontext";
 import logo from '../imgs/logo.png';
 import signin from '../imgs/signin.webp';
 import signup from '../imgs/signup.webp';
@@ -11,6 +12,8 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,10 +26,15 @@ const Signup: React.FC = () => {
     try {
       const data = await signUp(email, password);
       console.log("Signup success:", data);
-      alert("Signup successful! Please log in.");
+      showToast("Signup successful, please log in.", "success");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 800);
+
       navigate("/login");
     } catch (err: any) {
-      alert(err.message);
+      showToast(err.message, "error");
     }
   };
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../imgs/logo.png';
-import signin from '../imgs/signin.webp';
-import signup from '../imgs/signup.webp';
 import stu from '../imgs/stu.webp';
 
 const Home: React.FC = () => {
@@ -17,7 +15,6 @@ const Home: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/");
   };

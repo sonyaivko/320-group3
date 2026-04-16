@@ -5,10 +5,12 @@ import Signup from "./pages/Signup";
 import ViewReports from "./pages/ViewReports";
 import CreateReport from "./pages/CreateReport";
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastProvider } from "./context/toastcontext";
 import "./App.css";
 
 export default function App() {
   return (
+    <ToastProvider>
     <Router>
       <Routes>
         {/* PUBLIC */}
@@ -36,5 +38,6 @@ export default function App() {
         />
       </Routes>
     </Router>
+    </ToastProvider>
   );
 }

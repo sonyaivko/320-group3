@@ -1,8 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/toastcontext";
 import logo from '../imgs/logo.png';
-import signin from '../imgs/signin.webp';
-import signup from '../imgs/signup.webp';
 import { signIn } from "../api/auth";
 import stu from '../imgs/stu.webp';
 
@@ -10,6 +9,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
   e.preventDefault();
@@ -29,11 +29,17 @@ const Login: React.FC = () => {
     localStorage.setItem("user", JSON.stringify(data.user));
 
     console.log("Login success:", data);
+    
+    showToast("Login successful", "success");
 
-    alert("Login successful!");
+    setTimeout(() => {
+      navigate("/");
+    }, 800);
+
     navigate("/");
+
   } catch (err: any) {
-    alert(err.message);
+    showToast(err.message, "error");
   }
   };
 
