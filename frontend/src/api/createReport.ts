@@ -1,29 +1,39 @@
 export interface CreateReportPayload {
-    lost_or_found: string;
-    latitude: number;
-    longitude: number;
-    resolved: boolean;
-    description: string;
-    categories: Record<string, string>;
+  lost_or_found: string;
+  latitude: number;
+  longitude: number;
+  resolved: boolean;
+  description: string;
+
+  categories: {
+    itemType: string[];
+    color: string[];
+    material: string[];
+    locationLabel?: string;
+  };
+}
+
+export async function createReport(payload: CreateReportPayload) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("Not logged in");
   }
-  
-  export async function createReport(payload: CreateReportPayload) {
-    const token = localStorage.getItem("token");
-  
-    const res = await fetch("http://localhost:4000/reports", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-  
-    const data = await res.json();
-  
-    if (!res.ok) {
-      throw new Error(data.error || "Failed to create report");
-    }
-  
-    return data;
+
+  const res = await fetch("http://localhost:4000/reports", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || "Failed to create report");
   }
+
+  return data;
+}

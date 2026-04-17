@@ -33,7 +33,11 @@ export class Report {
   description!: string;
 
   @Column({ type: "jsonb", nullable: true })
-  categories!: Record<string, string> | null;
+  categories!: {
+    itemType: string[];
+    color: string[];
+    material: string[];
+  } | null;
 
   @Column({ type: "uuid", nullable: true })
   user_id!: string;
