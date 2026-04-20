@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "./base";
+import { getToken } from "../utils/auth";
 
 export interface BackendReport {
   report_id: number;
@@ -21,7 +22,7 @@ export interface CreateReportPayload {
 }
 
 export async function getReports(): Promise<BackendReport[]> {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const res = await fetch(`${API_BASE_URL}/reports`, {
     headers: {
@@ -37,12 +38,13 @@ export async function getReports(): Promise<BackendReport[]> {
 }
 
 export async function createReport(payload: CreateReportPayload) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const res = await fetch(`${API_BASE_URL}/reports`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      // Protected backend route requires Bearer token
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
@@ -55,10 +57,10 @@ export async function createReport(payload: CreateReportPayload) {
 }
 
 export async function resolveReport(report_id: number) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const res = await fetch(
-    `http://localhost:4000/reports/${report_id}/resolve`,
+    `${API_BASE_URL}/reports/${report_id}/resolve`,
     {
       method: "PATCH",
       headers: {
