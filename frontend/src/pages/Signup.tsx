@@ -1,7 +1,8 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../logo.png';
-import stu from '../signup.webp';
+import { useToast } from "../context/toastcontext";
+import logo from '../imgs/logo.png';
+import signup from '../imgs/signup.webp';
 import { signUp } from "../api/auth";
 
 const Signup: React.FC = () => {
@@ -9,6 +10,8 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -21,10 +24,15 @@ const Signup: React.FC = () => {
     try {
       const data = await signUp(email, password);
       console.log("Signup success:", data);
-      alert("Signup successful! Please log in.");
+      showToast("Signup successful, please log in.", "success");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 800);
+
       navigate("/login");
     } catch (err: any) {
-      alert(err.message);
+      showToast(err.message, "error");
     }
   };
 
@@ -32,7 +40,7 @@ const Signup: React.FC = () => {
     <div
       className="signup-page"
       style={{
-        backgroundImage: `url(${stu})`,
+        backgroundImage: `url(${signup})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',

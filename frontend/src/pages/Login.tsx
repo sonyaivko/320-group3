@@ -1,37 +1,53 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from '../logo.png';
-import stu from '../signin.webp';
+import { useToast } from "../context/toastcontext";
+import logo from '../imgs/logo.png';
 import { signIn } from "../api/auth";
+import signin from '../imgs/signin.webp';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-  
-    try {
-      const data = await signIn(email, password);
-      console.log("Login success:", data);
-  
-      if (data.session?.access_token) {
-        localStorage.setItem("token", data.session.access_token);
-      }
-  
-      alert("Login successful!");
-      navigate("/");
-    } catch (err: any) {
-      alert(err.message);
+  e.preventDefault();
+
+  try {
+    const data = await signIn(email, password);
+
+    // ✅ HARD VALIDATION (important)
+    if (!data.session?.access_token) {
+      throw new Error("Login failed: no session token returned");
     }
+
+    // ✅ STORE TOKEN
+    localStorage.setItem("token", data.session.access_token);
+
+    // (optional but recommended)
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    console.log("Login success:", data);
+    
+    showToast("Login successful", "success");
+
+    setTimeout(() => {
+      navigate("/");
+    }, 800);
+
+    navigate("/");
+
+  } catch (err: any) {
+    showToast(err.message, "error");
+  }
   };
 
   return (
     <div
       className="login-page"
       style={{
-        backgroundImage: `url(${stu})`,
+        backgroundImage: `url(${signin})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',
