@@ -1,35 +1,89 @@
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/toastcontext";
+import logo from '../imgs/logo.png';
+import signup from '../imgs/signup.webp';
+import { signUp } from "../api/auth";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const { showToast } = useToast();
 
-  const handleSubmit = (e: FormEvent) => {
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Signup submitted:", { email, password });
-    // TODO: connect to backend / Supabase signup
+  
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+  
+    try {
+      const data = await signUp(email, password);
+      console.log("Signup success:", data);
+      showToast("Signup successful, please log in.", "success");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 800);
+
+      navigate("/login");
+    } catch (err: any) {
+      showToast(err.message, "error");
+    }
   };
 
   return (
-    <div className="signup-page">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email:</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label>Password:</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Signup</button>
-      </form>
+    <div
+      className="signup-page"
+      style={{
+        backgroundImage: `url(${signup})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div className="glass-box">
+        <img src={logo} alt="Logo" className="logo" style={{ width: '100px', marginBottom: '20px' }} />
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '250px' }}>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Confirm password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <button type="submit" className="btn btn-small">Sign Up</button>
+        </form>
+        <div style={{ marginTop: '10px', fontSize: '0.9rem' }}>
+          <span>Already have an account? </span>
+          <button
+            className="btn-accent"
+            style={{ padding: "6px 12px", fontSize: "0.85rem" }}
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

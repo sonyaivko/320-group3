@@ -13,5 +13,5 @@ export const uFoundDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [Report],  // ← pass class directly instead of glob string
+  entities: [Report],
 });
