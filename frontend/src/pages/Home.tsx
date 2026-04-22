@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../imgs/logo.png';
 import stu from '../imgs/stu.webp';
+import { isLoggedIn } from "../utils/auth";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check login status (example using localStorage)
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    setIsLoggedIn(!!user);
-  }, []);
+  const loggedIn = isLoggedIn();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
     navigate("/");
   };
 
@@ -35,7 +29,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="top-right-buttons">
-            {!isLoggedIn ? (
+            {!loggedIn ? (
               <>
                 <button className="btn" onClick={() => navigate("/login")}>
                   Login
