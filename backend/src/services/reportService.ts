@@ -1,5 +1,21 @@
 import { uFoundDataSource } from "../ormconfig";
 import { Report } from "../entities/Report";
+import { ReportHistory } from "../entities/ReportHistory"; 
+
+// helper — call BEFORE saving changes
+async function logHistory(
+  report: Report,
+  action: string,
+  changed_by: string
+) {
+  const historyRepo = uFoundDataSource.getRepository(ReportHistory);
+  await historyRepo.save({
+    report_id: report.report_id,
+    changed_by,
+    action,
+    previous_state: { ...report },
+  });
+}
 
 export async function createReport(data: Partial<Report>): Promise<Report> {
   const reportRepo = uFoundDataSource.getRepository(Report);
@@ -30,11 +46,14 @@ export async function markAsFound(
   return await reportRepo.save(report);
 }
 
+
+
 export async function resolveReport(report_id: number, user_id: string): Promise<Report> {
   const reportRepo = uFoundDataSource.getRepository(Report);
   const report = await reportRepo.findOne({ where: { report_id } });
 
   if (!report) throw new Error("Report not found");
+
 
   report.resolved = true;
   report.updated_at = new Date();
@@ -48,5 +67,7 @@ export async function deleteReport(report_id: number, user_id: string): Promise<
   if (!report) throw new Error("Report not found");
   if (report.user_id !== user_id) throw new Error("Unauthorized");
 
+
+ 
   await reportRepo.remove(report);
 }
