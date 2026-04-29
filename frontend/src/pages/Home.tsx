@@ -7,7 +7,7 @@ import "./faq.css";
 
 //imports for FAQ dialog and disclosure 
 
-import { Dialog, DialogPanel, DialogTitle, Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { Dialog, DialogPanel, DialogTitle, Disclosure, DisclosureButton, DisclosurePanel, Description } from '@headlessui/react';
 import { useState } from "react";
 
 const Home: React.FC = () => {
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
           <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 51 }}>
         <DialogPanel className="faq-modal">
           <DialogTitle className="font-bold">Frequently Asked Questions</DialogTitle>
-
+          <Description>Contact UFound admin with any other questions.</Description>
           <div className="faq-content">
 
             <Disclosure>
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
               Please reach out to UFound administrators. We will do our best to contact the user who claimed your item and validate your ownership. 
               </DisclosurePanel>
             </Disclosure>
-
+            
           </div>
 
           <button className="btn btn-small" onClick={() => setIsOpen(false)}>
