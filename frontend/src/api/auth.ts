@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./base"
+import API_BASE_URL from "./client";
 
 export async function signUp(email: string, password: string) {
   const res = await fetch(`${API_BASE_URL}/auth/signup`, {
