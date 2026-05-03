@@ -8,6 +8,7 @@ import categoryRoutes from "./routes/categoryRoutes";
 import reportRoutes from "./routes/reportRoutes";
 import filterRoutes from "./routes/filterRoutes";
 import historyRoutes from "./routes/historyRoutes";
+import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 

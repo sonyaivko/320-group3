@@ -4,12 +4,13 @@
   --text: #111111;          /* Black - main text */
   --accent: #D4A017;        /* Gold - highlights / secondary buttons */
 }
+* {
+  font-family: system-ui, -apple-system, sans-serif;
+}
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
@@ -88,6 +89,7 @@ button.btn {
   border-radius: 10px;
   font-size: 1.3rem; 
   transition: 0.2s; 
+  font-family: inherit; 
 }
 
 .home-buttons {
@@ -96,6 +98,7 @@ button.btn {
   align-items: center;
   gap: 20px; /* more space between buttons */
   margin-top: 30px;
+
 }
 
 button.btn:hover {
@@ -170,7 +173,10 @@ button.btn-accent:hover {
   color: white;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   animation: fadeSlide 0.25s ease-out;
+  font-family: system-ui, -apple-system, sans-serif;
+
 }
+
 
 /* variations */
 .toast.success {
