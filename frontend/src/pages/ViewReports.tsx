@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
 });
 
 /* ---------------- TYPES ---------------- */
+
 type Report = {
   report_id: number;
   lost_or_found: string;
@@ -32,18 +33,39 @@ type Report = {
   };
 };
 
-/* ---------------- OPTIONS ---------------- */
-const ITEM_TYPES = ["Backpack", "Purse", "Wallet", "Phone", "Keys", "Laptop", "Card", "Other"];
-const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "Black", "White", "Other"];
-const MATERIALS = ["Leather", "Plastic", "Metal", "Fabric", "Rubber", "Glass", "Other"];
-
 export default function ViewReports() {
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
-  /* ✅ FIX 1: state must be inside component */
+  /* ---------------- OPTIONS ---------------- */
+
+  const [categories, setCategories] = useState<{
+    type: string[];
+    color: string[];
+    material: string[];
+  }>({
+    type: [],
+    color: [],
+    material: [],
+  });
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("http://localhost:4000/categories");
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to load categories", err);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  /* ---------------- STATE ---------------- */
+
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,6 +76,8 @@ export default function ViewReports() {
     material: [] as string[],
   });
 
+  /* ---------------- FETCH ---------------- */
+
   async function fetchReports() {
     setLoading(true);
     try {
@@ -63,17 +87,18 @@ export default function ViewReports() {
         params.append("lost_or_found", filters.lost_or_found);
       }
 
-      const categories = {
+      const filterCategories = {
         itemType: filters.itemType,
         color: filters.color,
         material: filters.material,
       };
 
-      if ( filters.itemType.length ||
+      if (
+        filters.itemType.length ||
         filters.color.length ||
         filters.material.length
       ) {
-        params.append("categories", JSON.stringify(categories));
+        params.append("categories", JSON.stringify(filterCategories));
       }
 
       const token = localStorage.getItem("token");
@@ -100,31 +125,27 @@ export default function ViewReports() {
     }
   }
 
-  const handleResolve = async (id: number) => {
-  try {
-    await resolveReport(id);
-
-    setSelectedReport(null);
-
-    // ✅ SUCCESS MESSAGE (ADD THIS)
-    setSuccessMessage("🎉 You have collected your item!");
-
-    await fetchReports();
-
-    // auto-hide after 3 seconds
-    setTimeout(() => {
-      setSuccessMessage(null);
-    }, 3000);
-
-  } catch (err: any) {
-    showToast(err.message, "error");
-
-  }
-};
-
   useEffect(() => {
     fetchReports();
   }, []);
+
+  /* ---------------- RESOLVE ---------------- */
+
+  const handleResolve = async (id: number) => {
+    try {
+      await resolveReport(id);
+      setSelectedReport(null);
+      setSuccessMessage("🎉 You have collected your item!");
+      await fetchReports();
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
+    } catch (err: any) {
+      showToast(err.message, "error");
+    }
+  };
+
+  /* ---------------- TOGGLE ---------------- */
 
   function toggle(key: "itemType" | "color" | "material", value: string) {
     setFilters((prev) => {
@@ -137,12 +158,13 @@ export default function ViewReports() {
       };
     });
   }
-  const navigate = useNavigate();
+
+  /* ---------------- RENDER ---------------- */
+
   return (
-    
     <div className="view-layout">
 
-      {/* FILTER PANEL (UNCHANGED) */}
+      {/* FILTER PANEL */}
       <div className="filter-panel">
         <div className="filter-header">
           <span className="filter-title">Filters</span>
@@ -171,8 +193,8 @@ export default function ViewReports() {
           </div>
         </div>
 
-        {/* CHIPS (UNCHANGED) */}
-        {[ITEM_TYPES, COLORS, MATERIALS].map((group, i) => {
+        {/* CHIPS */}
+        {[categories.type, categories.color, categories.material].map((group, i) => {
           const key = i === 0 ? "itemType" : i === 1 ? "color" : "material";
           const label = i === 0 ? "Item type" : i === 1 ? "Color" : "Material";
 
@@ -183,7 +205,9 @@ export default function ViewReports() {
                 {group.map((o) => (
                   <button
                     key={o}
-                    className={`chip${filters[key as keyof typeof filters].includes(o) ? " active" : ""}`}
+                    className={`chip${
+                      filters[key as keyof typeof filters].includes(o) ? " active" : ""
+                    }`}
                     onClick={() => toggle(key as any, o)}
                   >
                     {o}
@@ -199,7 +223,7 @@ export default function ViewReports() {
         </button>
       </div>
 
-      {/* MAP */}
+      {/* MAP AREA */}
       <div className="map-area">
         <div className="top-right-nav">
           <button className="btn-accent" onClick={() => navigate("/")}>
@@ -234,7 +258,6 @@ export default function ViewReports() {
                 >
                   <Popup>
                     <div className="popup-card">
-
                       <div className="popup-header">
                         <span className={`popup-badge full ${r.lost_or_found}`}>
                           {r.lost_or_found?.toUpperCase()}
@@ -251,31 +274,31 @@ export default function ViewReports() {
                       </div>
 
                       {/* TAGS */}
-                        <div className="popup-tags popup-tags-centered">
-                          {r.categories?.itemType?.map((t: string) => (
-                            <span key={t} className="tag item">{t}</span>
-                          ))}
-                          {r.categories?.color?.map((t: string) => (
-                            <span key={t} className="tag color">{t}</span>
-                          ))}
-                          {r.categories?.material?.map((t: string) => (
-                            <span key={t} className="tag material">{t}</span>
-                          ))}
-                        </div>
+                      <div className="popup-tags popup-tags-centered">
+                        {r.categories?.itemType?.map((t: string) => (
+                          <span key={t} className="tag item">{t}</span>
+                        ))}
+                        {r.categories?.color?.map((t: string) => (
+                          <span key={t} className="tag color">{t}</span>
+                        ))}
+                        {r.categories?.material?.map((t: string) => (
+                          <span key={t} className="tag material">{t}</span>
+                        ))}
+                      </div>
 
-                        {/* ACTION */}
-                        <div className="popup-actions-centered">
-                          {!r.resolved ? (
-                            <button
-                              className="resolve-btn"
-                              onClick={() => setSelectedReport(r)}
-                            >
-                              🔍 Claim
-                            </button>
-                          ) : (
-                            <span className="resolved-label">✓ Resolved</span>
-                          )}
-                        </div>
+                      {/* ACTION */}
+                      <div className="popup-actions-centered">
+                        {!r.resolved ? (
+                          <button
+                            className="resolve-btn"
+                            onClick={() => setSelectedReport(r)}
+                          >
+                            🔍 Claim
+                          </button>
+                        ) : (
+                          <span className="resolved-label">✓ Resolved</span>
+                        )}
+                      </div>
                     </div>
                   </Popup>
                 </Marker>
@@ -284,30 +307,25 @@ export default function ViewReports() {
           </MapContainer>
         )}
 
-        {/* ================= MODAL (NEW BUT REQUIRED) ================= */}
+        {/* MODAL */}
         {selectedReport && (
           <div className="modal-backdrop">
             <div className="modal-card">
-
-              {/* ICON / HEADER */}
               <div className="modal-header">
                 <div className="modal-icon">📍</div>
                 <h2>Claim this item?</h2>
               </div>
 
-              {/* DESCRIPTION */}
               <p className="modal-description">
                 <strong>{selectedReport.description}</strong>
               </p>
 
-              {/* WARNING */}
               <div className="modal-warning">
-                ⚠️ Only confirm if this item belongs to you.  
+                ⚠️ Only confirm if this item belongs to you.
                 <br />
                 False claims may be reviewed.
               </div>
 
-              {/* ACTIONS */}
               <div className="modal-actions">
                 <button
                   className="modal-btn cancel"
@@ -315,7 +333,6 @@ export default function ViewReports() {
                 >
                   Cancel
                 </button>
-
                 <button
                   className="modal-btn confirm"
                   onClick={() => handleResolve(selectedReport.report_id)}
@@ -323,16 +340,18 @@ export default function ViewReports() {
                   Yes, collect item
                 </button>
               </div>
-
             </div>
           </div>
         )}
+
+        {/* SUCCESS TOAST */}
         {successMessage && (
           <div className="success-toast">
             {successMessage}
           </div>
         )}
-        {/* LEGEND (UNCHANGED) */}
+
+        {/* LEGEND */}
         {!loading && (
           <div className="map-legend">
             <div className="legend-item">
@@ -346,7 +365,7 @@ export default function ViewReports() {
           </div>
         )}
       </div>
+
     </div>
-      
   );
 }

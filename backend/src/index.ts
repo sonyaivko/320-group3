@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import { uFoundDataSource } from "./ormconfig";
 import * as dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 import reportRoutes from "./routes/reportRoutes";
 import filterRoutes from "./routes/filterRoutes";
 import historyRoutes from "./routes/historyRoutes";
@@ -19,7 +21,7 @@ app.use("/auth", authRoutes);
 app.use("/reports", reportRoutes);
 app.use("/reports", filterRoutes);
 app.use("/reports", historyRoutes);
-app.use("/auth", authRoutes);
+app.use("/categories", categoryRoutes);
 
 uFoundDataSource.initialize().then(() => {
   console.log("uFound DB connected!");

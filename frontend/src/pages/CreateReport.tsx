@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -17,11 +17,7 @@ import "leaflet/dist/leaflet.css";
 
 /* ---------------- MAP PICKER ---------------- */
 
-function LocationPicker({
-  setCoords,
-}: {
-  setCoords: (coords: LatLng) => void;
-}) {
+function LocationPicker({ setCoords }: { setCoords: (coords: LatLng) => void }) {
   useMapEvents({
     click(e: LeafletMouseEvent) {
       setCoords(e.latlng);
@@ -29,12 +25,6 @@ function LocationPicker({
   });
   return null;
 }
-
-/* ---------------- OPTIONS ---------------- */
-
-const ITEM_TYPES = ["Backpack", "Purse", "Wallet", "Phone", "Keys", "Laptop", "Card", "Other"];
-const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "Black", "White", "Other"];
-const MATERIALS = ["Leather", "Plastic", "Metal", "Fabric", "Rubber", "Glass", "Other"];
 
 /* ---------------- TYPES ---------------- */
 
@@ -53,7 +43,30 @@ export default function CreateReport() {
   const [animateOut, setAnimateOut] = useState(false);
   const [coords, setCoords] = useState<LatLng | null>(null);
 
+  /* ---------------- OPTIONS ---------------- */
 
+  const [categories, setCategories] = useState<{
+    type: string[];
+    color: string[];
+    material: string[];
+  }>({
+    type: [],
+    color: [],
+    material: [],
+  });
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("http://localhost:4000/categories");
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to load categories", err);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const [formData, setFormData] = useState<FormState>({
     type: null,
@@ -70,7 +83,6 @@ export default function CreateReport() {
 
   const toggle = (key: keyof FormState, value: string) => {
     const list = formData[key] as string[];
-
     setFormData((prev) => ({
       ...prev,
       [key]: list.includes(value)
@@ -83,7 +95,6 @@ export default function CreateReport() {
 
   const goToForm = (type: "lost" | "found") => {
     setAnimateOut(true);
-
     setTimeout(() => {
       setFormData((prev) => ({ ...prev, type }));
       setStep("form");
@@ -117,7 +128,6 @@ export default function CreateReport() {
 
       showToast("Report submitted!", "success");
       navigate("/viewreports");
-
     } catch (err: any) {
       showToast(err.message, "error");
     }
@@ -140,7 +150,6 @@ export default function CreateReport() {
             <button className="big-btn lost" onClick={() => goToForm("lost")}>
               I Lost Something
             </button>
-
             <button className="big-btn found" onClick={() => goToForm("found")}>
               I Found Something
             </button>
@@ -196,7 +205,7 @@ export default function CreateReport() {
           <div className="multi-group">
             <h3>Item Type</h3>
             <div className="multi-options">
-              {ITEM_TYPES.map((item) => (
+              {categories.type.map((item) => (
                 <button
                   type="button"
                   key={item}
@@ -213,7 +222,7 @@ export default function CreateReport() {
           <div className="multi-group">
             <h3>Color</h3>
             <div className="multi-options">
-              {COLORS.map((color) => (
+              {categories.color.map((color) => (
                 <button
                   type="button"
                   key={color}
@@ -230,7 +239,7 @@ export default function CreateReport() {
           <div className="multi-group">
             <h3>Material</h3>
             <div className="multi-options">
-              {MATERIALS.map((mat) => (
+              {categories.material.map((mat) => (
                 <button
                   type="button"
                   key={mat}
@@ -248,8 +257,8 @@ export default function CreateReport() {
           </button>
 
         </form>
+
       </div>
-      
     </div>
   );
 }
