@@ -1,5 +1,9 @@
 /* ---------------- THEME ---------------- */
 
+* {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
 :root {
   --primary: #7A1E1E;
   --primary-dark: #5c1414;
